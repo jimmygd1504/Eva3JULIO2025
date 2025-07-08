@@ -87,3 +87,38 @@ const InitialStateEvento: Evento = {
       setEventos(eventosActualizados);
       setEditandoId(null);
     } else {
+
+      const nuevoEvento = {
+        ...evento,
+        id: Date.now()
+      };
+      setEventos([...eventos, nuevoEvento]);
+    }
+    
+    setEvento(InitialStateEvento);
+    setErrores({});
+  };
+
+  const handleEditar = (eventoAEditar: Evento) => {
+    setEvento(eventoAEditar);
+    setEditandoId(eventoAEditar.id);
+  };
+
+  const handleEliminar = (id: number) => {
+    if (window.confirm("¿Estás seguro de que quieres eliminar este evento?")) {
+      const eventosActualizados = eventos.filter(e => e.id !== id);
+      setEventos(eventosActualizados);
+      localStorage.setItem("eventos", JSON.stringify(eventosActualizados));
+    }
+  };
+
+  const handleCancelar = () => {
+    setEvento(InitialStateEvento);
+    setEditandoId(null);
+    setErrores({});
+  };
+
+  const eventosFiltrados = eventos.filter(e =>
+    e.nombre.toLowerCase().includes(filtro.toLowerCase()) ||
+    e.categoria.toLowerCase().includes(filtro.toLowerCase())
+  );
