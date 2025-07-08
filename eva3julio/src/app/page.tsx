@@ -67,3 +67,23 @@ const InitialStateEvento: Evento = {
       ...evento,
       [name]: value
     });
+
+     if (errores[name]) {
+      setErrores({
+        ...errores,
+        [name]: ""
+      });
+    }
+  };
+
+  const handleRegistrar = () => {
+    if (!validarCampos()) return;
+    
+    if (editandoId !== null) {
+    
+      const eventosActualizados = eventos.map(e => 
+        e.id === editandoId ? { ...evento, id: editandoId } : e
+      );
+      setEventos(eventosActualizados);
+      setEditandoId(null);
+    } else {
